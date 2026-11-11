@@ -41,3 +41,26 @@
 /* Real user-supplied examples in section 2 */
 .posavc .example-image{padding:0;aspect-ratio:1/1;background:#f0f4ee;overflow:hidden}
 .posavc .example-image img{display:block;width:100%;height:100%;object-fit:contain}
+
+/* Uploaded mockup in the hero — restrained LED halo, no external assets. */
+.posavc .hero{display:block;max-width:900px;text-align:center}
+.posavc .hero-text{max-width:780px;margin-inline:auto}
+.posavc .hero-text>.buy-button{margin-inline:auto}
+.posavc .hero-text>.checks{justify-content:center}
+.posavc .hero-mk{position:relative;isolation:isolate;max-width:650px;margin:12px auto 20px}
+.posavc .hero-mk:before{content:"";position:absolute;z-index:-1;inset:18% 12%;background:radial-gradient(ellipse at center,rgba(23,185,120,.15),rgba(20,92,71,.055) 45%,transparent 73%);filter:blur(25px);pointer-events:none}
+.posavc .hero-mk img{width:100%;height:auto;max-height:480px;object-fit:contain;display:block}
+.posavc .hero-desktop,.posavc .hero-mobile{display:none}
+.posavc .infinite-viewer{max-width:690px}
+.posavc .gallery-second{margin-top:25px}
+.posavc .infinite-track{overscroll-behavior-inline:contain}
+.posavc .infinite-track .page-slide img{display:block;width:100%;height:auto;max-height:440px;object-fit:contain;border-radius:10px;background:#f7f9f6}
+.posavc .infinite-track .page-slide p{color:#62766a;font-size:13px;line-height:1.55;max-width:480px;margin:7px auto 10px}
+@media(max-width:699px){
+ .posavc .hero{padding-top:35px;padding-bottom:65px}
+ .posavc .hero-mk{margin:12px -10px 18px}
+ .posavc .hero-mk img{max-height:370px}
+ .posavc .infinite-viewer{padding:12px}
+ .posavc .infinite-track .page-slide img{max-height:375px}
+ .posavc .infinite-track .page-slide h3{font-size:14px}
+}
