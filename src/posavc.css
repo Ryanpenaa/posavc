@@ -113,3 +113,7 @@
 /* Real audience photography, keeping existing card dimensions. */
 .posavc .audience-visual{overflow:hidden;padding:0}
 .posavc .audience-visual img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+
+/* Offer without mockup: center the content instead of reserving an empty image column. */
+.posavc .offer-inner{display:block}
+.posavc .offer-info{max-width:540px;margin-inline:auto}
