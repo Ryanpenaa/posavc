@@ -94,7 +94,7 @@ function LoopGallery({ start, title, items }: { start:number; title:string; item
         const index=Math.round(el.scrollLeft/width)-count;
         jump(index+1);
       }
-    },3500);
+    },2400);
     window.addEventListener("resize",reset);
     return ()=>{observer.disconnect();cancelAnimationFrame(frame);clearInterval(timer);el.removeEventListener("scrollend",normalize);window.removeEventListener("resize",reset);};
   },[]);
