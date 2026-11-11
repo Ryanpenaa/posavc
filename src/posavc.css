@@ -117,3 +117,42 @@
 /* Offer without mockup: center the content instead of reserving an empty image column. */
 .posavc .offer-inner{display:block}
 .posavc .offer-info{max-width:540px;margin-inline:auto}
+
+/* Mobile-first product preview: large readable center, small adjacent peeks. */
+@media(max-width:699px){
+  .posavc .infinite-viewer{padding:10px 0 14px}
+  .posavc .infinite-viewer .viewer-top,
+  .posavc .infinite-viewer .viewer-bottom{margin-inline:14px}
+  .posavc .infinite-track{
+    --gallery-gap:8px;
+    padding-inline:8%;
+    scroll-padding-inline:8%;
+    align-items:start;
+  }
+  .posavc .infinite-track .page-slide{
+    flex:0 0 84%;
+    opacity:.55;
+    transform:scale(.85);
+    transform-origin:top center;
+  }
+  .posavc .infinite-track .page-slide.is-centered{
+    opacity:1;
+    transform:scale(1);
+  }
+  .posavc .infinite-track .page-slide img{
+    width:100%;
+    height:auto;
+    max-height:none;
+    aspect-ratio:3/4;
+    object-fit:contain;
+  }
+  .posavc .infinite-track .page-slide h3{
+    font-size:15px;
+    line-height:1.35;
+    padding-inline:5px;
+  }
+  .posavc .infinite-track .page-slide p{
+    font-size:12px;
+    padding-inline:5px;
+  }
+}
