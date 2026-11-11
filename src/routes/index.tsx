@@ -1,6 +1,6 @@
 import "../posavc.css";
 import { createFileRoute } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, FileText, HeartHandshake, LockKeyhole, MessageCircle, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -49,11 +49,71 @@ function Mockup() {
 function Heading({ tag,title,subtitle }: {tag:string,title:string,subtitle?:string}) {
   return <div className="heading"><span className="eyebrow">{tag}</span><h2>{title}</h2>{subtitle && <p>{subtitle}</p>}</div>;
 }
+
+function LoopGallery({ start, title, items }: { start:number; title:string; items:typeof pages }) {
+  const ref=useRef<HTMLDivElement>(null);
+  const [active,setActive]=useState(0);
+  const paused=useRef(false);
+  const visible=useRef(false);
+  const count=items.length;
+  const copies=[...items,...items,...items];
+  function stepSize(){
+    const el=ref.current;
+    if(!el || !el.children.length)return 0;
+    const first=el.children[0] as HTMLElement;
+    return first.getBoundingClientRect().width + parseFloat(getComputedStyle(el).gap || "0");
+  }
+  function jump(index:number, smooth=true){
+    const el=ref.current;const width=stepSize();
+    if(!el || !width)return;
+    el.scrollTo({left:width*(count+index),behavior:smooth?"smooth":"instant"});
+    setActive(((index%count)+count)%count);
+  }
+  useEffect(()=>{
+    const el=ref.current;if(!el)return;
+    const reset=()=>{const w=stepSize();if(w)el.scrollLeft=w*count;};
+    const observer=new IntersectionObserver(entries=>{visible.current=entries[0]?.isIntersecting??false;},{threshold:0.15});
+    observer.observe(el);
+    const frame=requestAnimationFrame(reset);
+    const timer=setInterval(()=>{
+      if(!paused.current && visible.current && !document.hidden && !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+        const width=stepSize();if(!width)return;
+        const index=Math.round(el.scrollLeft/width)-count;
+        jump(index+1);
+      }
+    },4200);
+    window.addEventListener("resize",reset);
+    return ()=>{observer.disconnect();cancelAnimationFrame(frame);clearInterval(timer);window.removeEventListener("resize",reset);};
+  },[]);
+  function update(){
+    const el=ref.current,w=stepSize();if(!el||!w)return;
+    const pos=Math.round(el.scrollLeft/w);
+    setActive(((pos%count)+count)%count);
+    if(pos<=count-1||pos>=count*2){
+      // Teleport to the identical item in the central copy: seamless infinite scrolling.
+      const newPos=count+((pos%count)+count)%count;
+      el.scrollTo({left:newPos*w,behavior:"instant"});
+    }
+  }
+  return <div className="viewer infinite-viewer" aria-label={title} onMouseEnter={()=>paused.current=true} onMouseLeave={()=>paused.current=false} onFocus={()=>paused.current=true} onBlur={()=>paused.current=false} onTouchStart={()=>paused.current=true} onTouchEnd={()=>{paused.current=false}}>
+    <div className="viewer-top"><span>PRÉVIAS DEMONSTRATIVAS</span><span>{active+1} / {count}</span></div>
+    <div className="page-track infinite-track" ref={ref} onScroll={update}>
+      {copies.map((item,index)=><div className="page-slide" key={index} aria-hidden={Math.floor(index/count)!==1 && index!==count+active ? "true":undefined}>
+        <img src={`/e${start+(index%count)}.png`} alt={`Prévia ${start+(index%count)}: ${item.title}`} loading="lazy" decoding="async" width="900" height="1200" />
+        <h3>{item.title}</h3><p>{item.description}</p>
+      </div>)}
+    </div>
+    <div className="viewer-bottom">
+      <button type="button" aria-label="Imagem anterior" onClick={()=>jump(active-1)}><ChevronLeft/></button>
+      <div className="progress"><span style={{width:((active+1)/count*100)+"%"}}/></div>
+      <button type="button" aria-label="Próxima imagem" onClick={()=>jump(active+1)}><ChevronRight/></button>
+    </div>
+  </div>;
+}
+
 function Landing(){
   const [notice,setNotice]=useState(false);
-  const [slide,setSlide]=useState(0);
   const [example,setExample]=useState(0);
-  const slideRef=useRef<HTMLDivElement>(null);
   const exampleRef=useRef<HTMLDivElement>(null);
   const offerRef=useRef<HTMLElement>(null);
   function checkout(){
@@ -81,16 +141,22 @@ function Landing(){
   return <main className="posavc">
     <div className="topbar">MATERIAL DIGITAL <span>•</span> ACESSO APÓS A COMPRA <span>•</span> PRONTO PARA IMPRIMIR</div>
     <section className="hero container">
-      <div className="hero-text"><span className="hero-label">COMUNICAÇÃO PÓS-AVC • FAMÍLIA E PROFISSIONAIS</span><h1>Apostilas, cards e pranchas para apoiar a comunicação após o AVC.</h1><p>Um kit digital com atividades ilustradas, cartões de identificação rápida e pranchas visuais para apoiar a comunicação em casa ou complementar atendimentos fonoaudiológicos.</p><div className="checks"><span><Check/> Apostilas com atividades</span><span><Check/> Cards de identificação</span><span><Check/> Pranchas para imprimir</span></div>
-      <div className="hero-mobile"><Mockup/></div>{buyButton("QUERO MEU KIT COMPLETO")}<div className="checks"><span><Check/> Material digital em PDF</span><span><Check/> Pronto para imprimir</span><span><Check/> Pagamento único</span></div><small className="medical">Material complementar. Não substitui acompanhamento fonoaudiológico individualizado.</small></div>
-      <div className="hero-desktop"><Mockup/></div>
+      <div className="hero-text"><span className="hero-label">COMUNICAÇÃO PÓS-AVC • FAMÍLIA E PROFISSIONAIS</span><h1>Apostilas, cards e pranchas para apoiar a comunicação após o AVC.</h1><div className="hero-mk"><img src="/mk.png" alt="Mockup do Kit Comunicação Pós-AVC" fetchPriority="high" decoding="async" width="900" height="900" /></div><p>Um kit digital com atividades ilustradas, cartões de identificação rápida e pranchas visuais para apoiar a comunicação em casa ou complementar atendimentos fonoaudiológicos.</p><div className="checks"><span><Check/> Apostilas com atividades</span><span><Check/> Cards de identificação</span><span><Check/> Pranchas para imprimir</span></div>
+      {buyButton("QUERO MEU KIT COMPLETO")}<div className="checks"><span><Check/> Material digital em PDF</span><span><Check/> Pronto para imprimir</span><span><Check/> Pagamento único</span></div><small className="medical">Material complementar. Não substitui acompanhamento fonoaudiológico individualizado.</small></div>
     </section>
     <section className="section container"><Heading tag="PARA O DIA A DIA" title="Uma imagem pode facilitar uma conversa." subtitle="Veja como recursos simples podem apoiar a comunicação em diferentes momentos do cotidiano."/>
       <div className="example-track" ref={exampleRef} onScroll={()=>scrolled(exampleRef,setExample)}>{previews.map((p,i)=><article className="example-card" key={p.title}><div className="example-image"><img src={"/img%20"+(i+1)+".png"} alt={"Exemplo visual do kit: "+p.title} loading="lazy" decoding="async" width="900" height="900" /></div><div className="card-text"><span className="eyebrow">0{i+1}</span><h3>{p.title}</h3><p>{p.description}</p></div></article>)}</div>
       <div className="dots">{previews.map((p,i)=><button aria-label={"Ver exemplo "+(i+1)} aria-current={example===i?"true":undefined} key={p.title} className={example===i?"on":""} onClick={()=>go(exampleRef,i,setExample)}/>)}</div>
     </section>
     <section className="section kit"><div className="container"><Heading tag="CONHEÇA O KIT" title="Conheça tudo o que vem no seu kit." subtitle="Apostilas com exercícios, cards de identificação rápida e pranchas ilustradas para utilizar em casa ou no acompanhamento profissional. As imagens são prévias demonstrativas até a chegada dos arquivos finais."/>
-      <div className="viewer"><div className="viewer-top"><span>PRÉVIAS DEMONSTRATIVAS</span><span>{slide+1} / {pages.length}</span></div><div className="page-track" ref={slideRef} onScroll={()=>scrolled(slideRef,setSlide)}>{pages.map(p=><div className="page-slide" key={p.title}><Board labels={p.labels} icons={p.icons}/><h3>{p.title}</h3><p>{p.description}</p></div>)}</div><div className="viewer-bottom"><button aria-label="Anterior" onClick={()=>go(slideRef,Math.max(0,slide-1),setSlide)}><ChevronLeft/></button><div className="progress"><span style={{width:((slide+1)/pages.length*100)+"%"}}/></div><button aria-label="Próximo" onClick={()=>go(slideRef,Math.min(pages.length-1,slide+1),setSlide)}><ChevronRight/></button></div></div>
+      <LoopGallery start={1} title="Primeira galeria de materiais" items={pages.slice(0,5)} />
+      <div className="gallery-second"><LoopGallery start={6} title="Segunda galeria de materiais" items={[
+        { title:"Outros exemplos do kit • 06", description:"Prévia ilustrativa do material.", labels:[], icons:[] },
+        { title:"Outros exemplos do kit • 07", description:"Prévia ilustrativa do material.", labels:[], icons:[] },
+        { title:"Outros exemplos do kit • 08", description:"Prévia ilustrativa do material.", labels:[], icons:[] },
+        { title:"Outros exemplos do kit • 09", description:"Prévia ilustrativa do material.", labels:[], icons:[] },
+        { title:"Outros exemplos do kit • 10", description:"Prévia ilustrativa do material.", labels:[], icons:[] },
+      ]} /></div>
       <div className="checks centered"><span><Check/> Arquivos digitais</span><span><Check/> Formato A4</span><span><Check/> Uso em casa ou consultório</span></div>
     </div></section>
     <section className="section container"><Heading tag="PENSADO PARA VOCÊ" title="Um recurso para quem cuida e para quem acompanha."/><div className="audiences">
