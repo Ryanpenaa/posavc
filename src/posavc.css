@@ -37,3 +37,7 @@
 @media(min-width:700px){.posavc .container{width:min(1120px,calc(100% - 64px))}.posavc .topbar{font-size:11px}.posavc .hero{grid-template-columns:1fr 1fr;padding-top:95px;padding-bottom:100px;gap:35px}.posavc .hero-mobile{display:none}.posavc .hero-desktop{display:block}.posavc .hero-text>p{font-size:17px}.posavc .hero-text>.buy-button{max-width:395px}.posavc .mockup{height:460px}.posavc .section{padding-top:95px;padding-bottom:100px}.posavc .example-track{overflow:visible}.posavc .example-card{flex:1;min-width:0}.posavc .dots{display:none}.posavc .board-cell{min-height:95px}.posavc .audiences{grid-template-columns:1fr 1fr}.posavc .offer-inner{display:grid;grid-template-columns:.85fr 1fr;align-items:center;gap:35px;padding:38px 55px}.posavc .offer-image .mockup{height:350px}.posavc .faq-layout{grid-template-columns:.85fr 1.15fr;gap:65px}.posavc .guarantee{align-self:start;padding:36px}.posavc .final-cta{padding:100px 0}}
 @media(max-width:380px){.posavc .hero-label{font-size:9px}.posavc .topbar{font-size:9px}.posavc .container{width:calc(100% - 28px)}.posavc .mockup{height:325px}.posavc .example-card{flex-basis:92%}.posavc .buy-button{font-size:12px}.posavc .security{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.posavc *{scroll-behavior:auto!important;transition:none!important}}
+
+/* Real user-supplied examples in section 2 */
+.posavc .example-image{padding:0;aspect-ratio:1/1;background:#f0f4ee;overflow:hidden}
+.posavc .example-image img{display:block;width:100%;height:100%;object-fit:contain}
