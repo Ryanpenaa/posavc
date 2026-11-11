@@ -67,3 +67,45 @@
 
 /* Discreet note immediately below the offer price */
 .posavc .fees-included{display:block;width:max-content;max-width:100%;margin:2px auto 5px;padding:3px 10px;border-radius:6px;background:#fff0f0;color:#b33b3b;font-size:11px;font-weight:800;letter-spacing:.055em;line-height:1.5}
+
+/* Centered gallery: full center card and approximately 60% of each adjacent card. */
+.posavc .infinite-track{
+  --gallery-gap:6px;
+  gap:var(--gallery-gap);
+  padding-inline:27.5%;
+  scroll-padding-inline:27.5%;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
+}
+.posavc .infinite-track .page-slide{
+  flex:0 0 45%;
+  scroll-snap-align:center;
+  scroll-snap-stop:normal;
+  opacity:.68;
+  transform:scale(.94);
+  transition:opacity .3s ease,transform .3s ease;
+}
+.posavc .infinite-track .page-slide.is-centered{
+  opacity:1;
+  transform:scale(1);
+}
+.posavc .infinite-track .page-slide img{
+  aspect-ratio:3/4;
+  max-height:none;
+  object-fit:contain;
+}
+.posavc .infinite-viewer{
+  max-width:760px;
+  overflow:hidden;
+}
+@media(max-width:699px){
+  .posavc .infinite-track{--gallery-gap:4px}
+  .posavc .infinite-track .page-slide h3{font-size:12px;line-height:1.3}
+  .posavc .infinite-track .page-slide p{font-size:10px;line-height:1.4}
+}
+@media(prefers-reduced-motion:reduce){
+ .posavc .infinite-track{scroll-behavior:auto}
+ .posavc .infinite-track .page-slide{transition:none}
+}
