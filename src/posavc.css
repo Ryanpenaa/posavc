@@ -64,3 +64,6 @@
  .posavc .infinite-track .page-slide img{max-height:375px}
  .posavc .infinite-track .page-slide h3{font-size:14px}
 }
+
+/* Discreet note immediately below the offer price */
+.posavc .fees-included{display:block;width:max-content;max-width:100%;margin:2px auto 5px;padding:3px 10px;border-radius:6px;background:#fff0f0;color:#b33b3b;font-size:11px;font-weight:800;letter-spacing:.055em;line-height:1.5}
