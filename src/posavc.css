@@ -156,3 +156,7 @@
     padding-inline:5px;
   }
 }
+
+/* Seven-day guarantee badge, sized for mobile without affecting other sections. */
+.posavc .guarantee .guarantee-badge{display:block;width:132px;max-width:42%;height:auto;object-fit:contain;margin:0 auto 15px;filter:drop-shadow(0 4px 8px rgba(51,41,11,.12))}
+@media(min-width:700px){.posavc .guarantee .guarantee-badge{width:146px;margin-left:0;margin-right:auto}}
