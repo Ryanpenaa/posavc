@@ -1,4 +1,5 @@
 import "../posavc.css";
+import { trackInitiateCheckout } from "../lib/meta-pixel";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, FileText, HeartHandshake, LockKeyhole, MessageCircle, ShieldCheck } from "lucide-react";
@@ -123,6 +124,7 @@ function Landing(){
         if(url.protocol==="https:"){
           const params=new URLSearchParams(window.location.search);
           TRACKING.forEach(k=>{ const v=params.get(k); if(v && v.length<501 && !url.searchParams.has(k)) url.searchParams.set(k,v); });
+          trackInitiateCheckout();
           window.location.assign(url.toString()); return;
         }
       } catch { /* checkout not configured */ }
