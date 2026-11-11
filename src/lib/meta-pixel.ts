@@ -42,7 +42,7 @@ export function initializeMetaPixel() {
       content_type: "product",
       content_ids: ["kit-comunicacao-pos-avc"],
       currency: "BRL",
-      value: 17.90,
+      value: 15.90,
     });
   }
 }
@@ -55,7 +55,7 @@ export function trackInitiateCheckout() {
     content_type: "product",
     content_ids: ["kit-comunicacao-pos-avc"],
     currency: "BRL",
-    value: 17.90,
+    value: 15.90,
     num_items: 1,
   });
 }
