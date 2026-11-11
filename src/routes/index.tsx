@@ -18,9 +18,9 @@ export const Route = createFileRoute("/")({
 const CHECKOUT_URL = "";
 const TRACKING = ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","utm_id","fbclid","gclid","ttclid","src","sck"];
 const previews = [
-  { title: "Expressar necessidades", description: "Recursos visuais para ajudar a indicar necessidades e preferências.", labels: ["Água","Comida","Banheiro","Descanso"], icons:["💧","🍽️","🚻","🛏️"] },
-  { title: "Fazer escolhas", description: "Ofereça alternativas para tornar as decisões do dia a dia mais acessíveis.", labels: ["Café","Suco"], icons:["☕","🧃"] },
-  { title: "Participar de atividades", description: "Atividades estruturadas que podem complementar a estimulação da linguagem.", labels: ["Casa","Feliz","Ler","Comer"], icons:["🏠","🙂","📖","🍎"] },
+  { title: "Expressar necessidades", description: "Água, comida ou descanso? Imagens simples ajudam a mostrar o que a pessoa precisa no dia a dia.", labels: ["Água","Comida","Banheiro","Descanso"], icons:["💧","🍽️","🚻","🛏️"] },
+  { title: "Fazer escolhas", description: "Café ou suco? Pequenas escolhas ajudam a manter a participação e a autonomia na rotina.", labels: ["Café","Suco"], icons:["☕","🧃"] },
+  { title: "Compartilhar sentimentos", description: "Feliz, triste ou cansado? As imagens oferecem outra maneira de expressar sentimentos.", labels: ["Casa","Feliz","Ler","Comer"], icons:["🏠","🙂","📖","🍎"] },
 ];
 const pages = [
   { title:"Pranchas de comunicação", labels:["Sim","Não","Quero","Ajuda"], icons:["✅","❌","👋","🤝"] },
