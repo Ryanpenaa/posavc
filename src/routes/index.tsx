@@ -2,7 +2,7 @@ import "../posavc.css";
 import { trackInitiateCheckout } from "../lib/meta-pixel";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Check, ChevronLeft, ChevronRight, FileText, HeartHandshake, LockKeyhole, MessageCircle, ShieldCheck } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, ChevronRight, FileText, HeartHandshake, LockKeyhole, MessageCircle } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Landing,
