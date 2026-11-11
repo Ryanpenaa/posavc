@@ -31,14 +31,14 @@ const pages = [
   { title:"Guia Prático para Familiares e Cuidadores", description:"Orientações simples para utilizar os materiais de forma respeitosa e adaptada.", labels:["Dar tempo","Escolher","Observar","Acolher"], icons:["⏳","🗣️","👀","💚"] },
 ];
 const faq = [
-  ["O produto é físico ou digital?","O material é 100% digital, disponibilizado em PDF. Nenhum produto físico será enviado."],
-  ["Posso imprimir quantas vezes precisar?","Sim, você pode imprimir o material para uso pessoal ou profissional conforme os termos de licença. A redistribuição e a revenda dos arquivos não são permitidas."],
-  ["Familiares conseguem utilizar o material?","Sim. O kit inclui recursos visuais e orientações acessíveis. Para escolher atividades adequadas às necessidades da pessoa, recomenda-se acompanhamento de um profissional de saúde habilitado."],
+  ["O produto é físico ou digital?","O material é 100% digital, disponibilizado em PDF."],
+  ["Posso imprimir quantas vezes precisar?","Sim, você pode imprimir o material para uso pessoal ou profissional"],
+  ["Familiares conseguem utilizar o material?","Sim. O kit inclui recursos visuais e orientações acessíveis. Para escolher atividades adequadas às necessidades da pessoa,"],
   ["Serve para pessoas que não conseguem falar?","Algumas pranchas podem apoiar formas alternativas de comunicação, conforme as capacidades e necessidades individuais. A adequação deve ser avaliada por um fonoaudiólogo."],
   ["Como recebo meu acesso?","Após a confirmação do pagamento, as instruções de acesso são enviadas ao e-mail cadastrado."],
   ["Preciso informar meu CPF?","O CPF pode ser solicitado pela plataforma de pagamento para identificação da compra e cumprimento de obrigações fiscais e de segurança."],
   ["O kit substitui a fonoaudiologia?","Não. É um recurso complementar de apoio à comunicação e não substitui avaliação ou tratamento individualizado."],
-  ["O que exatamente recebo no kit?","Você recebe arquivos digitais em PDF com apostilas de atividades, cartões ilustrados, pranchas de comunicação e orientações de utilização. Os materiais podem ser impressos para uso conforme as condições de licença."],
+  ["O que exatamente recebo no kit?","Você recebe arquivos digitais em PDF com apostilas de atividades, cartões ilustrados, pranchas de comunicação e orientações de utilização. Os materiais podem ser impressos para uso"],
 ];
 function Board({ labels, icons }: { labels:string[], icons:string[] }) {
   return <div className="board"><div className="board-top">COMUNICAÇÃO VISUAL <span>DEMONSTRAÇÃO</span></div><div className="board-grid">{labels.map((x,i)=><div className="board-cell" key={x}><span>{icons[i]}</span><b>{x}</b></div>)}</div><small>Prévia ilustrativa • não é um arquivo final</small></div>;
@@ -96,7 +96,7 @@ function LoopGallery({ start, title, items }: { start:number; title:string; item
     }
   }
   return <div className="viewer infinite-viewer" aria-label={title} onMouseEnter={()=>paused.current=true} onMouseLeave={()=>paused.current=false} onFocus={()=>paused.current=true} onBlur={()=>paused.current=false} onTouchStart={()=>paused.current=true} onTouchEnd={()=>{paused.current=false}}>
-    <div className="viewer-top"><span>PRÉVIAS DEMONSTRATIVAS</span><span>{active+1} / {count}</span></div>
+    <div className="viewer-top"><span></span><span>{active+1} / {count}</span></div>
     <div className="page-track infinite-track" ref={ref} onScroll={update}>
       {copies.map((item,index)=><div className="page-slide" key={index} aria-hidden={Math.floor(index/count)!==1 && index!==count+active ? "true":undefined}>
         <img src={`/e${start+(index%count)}.png`} alt={`Prévia ${start+(index%count)}: ${item.title}`} loading="lazy" decoding="async" width="900" height="1200" />
