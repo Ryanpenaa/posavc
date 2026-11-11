@@ -54,6 +54,7 @@ function Heading({ tag,title,subtitle }: {tag:string,title:string,subtitle?:stri
 function LoopGallery({ start, title, items }: { start:number; title:string; items:typeof pages }) {
   const ref=useRef<HTMLDivElement>(null);
   const [active,setActive]=useState(0);
+  const [physicalIndex,setPhysicalIndex]=useState(items.length);
   const paused=useRef(false);
   const visible=useRef(false);
   const count=items.length;
@@ -69,6 +70,7 @@ function LoopGallery({ start, title, items }: { start:number; title:string; item
     if(!el || !width)return;
     el.scrollTo({left:width*(count+index),behavior:smooth?"smooth":"instant"});
     setActive(((index%count)+count)%count);
+    setPhysicalIndex(count+index);
   }
   useEffect(()=>{
     const el=ref.current;if(!el)return;
@@ -84,6 +86,7 @@ function LoopGallery({ start, title, items }: { start:number; title:string; item
         const target=count+((pos%count)+count)%count;
         el.style.scrollSnapType="none";
         el.scrollTo({left:target*width,behavior:"instant"});
+        setPhysicalIndex(target);
         requestAnimationFrame(()=>{el.style.scrollSnapType="";});
       }
     };
@@ -102,13 +105,13 @@ function LoopGallery({ start, title, items }: { start:number; title:string; item
     const el=ref.current,w=stepSize();if(!el||!w)return;
     const pos=Math.round(el.scrollLeft/w);
     setActive(((pos%count)+count)%count);
-
+    setPhysicalIndex(pos);
   }
   return <div className="viewer infinite-viewer" aria-label={title} onMouseEnter={()=>paused.current=true} onMouseLeave={()=>paused.current=false} onFocus={()=>paused.current=true} onBlur={()=>paused.current=false} onTouchStart={()=>paused.current=true} onTouchEnd={()=>{paused.current=false}}>
     <div className="viewer-top"><span></span><span>{active+1} / {count}</span></div>
     <div className="page-track infinite-track" ref={ref} onScroll={update}>
       {copies.map((item,index)=><div className={"page-slide " + (index%count===active ? "is-centered" : "")} key={index} aria-hidden={Math.floor(index/count)!==1 && index!==count+active ? "true":undefined}>
-        <img src={`/optimized/e${start+(index%count)}.webp`} alt={`Prévia ${start+(index%count)}: ${item.title}`} loading="lazy" decoding="async" width="900" height="1200" />
+        <img src={Math.abs(index-physicalIndex)<=2 ? `/optimized/e${start+(index%count)}.webp` : undefined} alt={`Prévia ${start+(index%count)}: ${item.title}`} loading="lazy" decoding="async" width="900" height="1200" />
         <h3>{item.title}</h3><p>{item.description}</p>
       </div>)}
     </div>
