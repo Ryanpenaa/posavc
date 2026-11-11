@@ -97,6 +97,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preload", as: "image", href: "/optimized/mk.webp" },
+      { rel: "preconnect", href: "https://connect.facebook.net", crossOrigin: "anonymous" },
     ],
   }),
   shellComponent: RootShell,
