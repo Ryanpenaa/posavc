@@ -76,25 +76,33 @@ function LoopGallery({ start, title, items }: { start:number; title:string; item
     const observer=new IntersectionObserver(entries=>{visible.current=entries[0]?.isIntersecting??false;},{threshold:0.15});
     observer.observe(el);
     const frame=requestAnimationFrame(reset);
+    // Recenter only after movement completes, so the end-to-start transition stays seamless.
+    const normalize=()=>{
+      const width=stepSize();if(!width)return;
+      const pos=Math.round(el.scrollLeft/width);
+      if(pos<count || pos>=count*2){
+        const target=count+((pos%count)+count)%count;
+        el.style.scrollSnapType="none";
+        el.scrollTo({left:target*width,behavior:"instant"});
+        requestAnimationFrame(()=>{el.style.scrollSnapType="";});
+      }
+    };
+    el.addEventListener("scrollend",normalize);
     const timer=setInterval(()=>{
       if(!paused.current && visible.current && !document.hidden && !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
         const width=stepSize();if(!width)return;
         const index=Math.round(el.scrollLeft/width)-count;
         jump(index+1);
       }
-    },4200);
+    },3500);
     window.addEventListener("resize",reset);
-    return ()=>{observer.disconnect();cancelAnimationFrame(frame);clearInterval(timer);window.removeEventListener("resize",reset);};
+    return ()=>{observer.disconnect();cancelAnimationFrame(frame);clearInterval(timer);el.removeEventListener("scrollend",normalize);window.removeEventListener("resize",reset);};
   },[]);
   function update(){
     const el=ref.current,w=stepSize();if(!el||!w)return;
     const pos=Math.round(el.scrollLeft/w);
     setActive(((pos%count)+count)%count);
-    if(pos<=count-1||pos>=count*2){
-      // Teleport to the identical item in the central copy: seamless infinite scrolling.
-      const newPos=count+((pos%count)+count)%count;
-      el.scrollTo({left:newPos*w,behavior:"instant"});
-    }
+
   }
   return <div className="viewer infinite-viewer" aria-label={title} onMouseEnter={()=>paused.current=true} onMouseLeave={()=>paused.current=false} onFocus={()=>paused.current=true} onBlur={()=>paused.current=false} onTouchStart={()=>paused.current=true} onTouchEnd={()=>{paused.current=false}}>
     <div className="viewer-top"><span></span><span>{active+1} / {count}</span></div>
