@@ -111,7 +111,7 @@ function LoopGallery({ start, title, items }: { start:number; title:string; item
     <div className="viewer-top"><span></span><span>{active+1} / {count}</span></div>
     <div className="page-track infinite-track" ref={ref} onScroll={update}>
       {copies.map((item,index)=><div className={"page-slide " + (index%count===active ? "is-centered" : "")} key={index} aria-hidden={Math.floor(index/count)!==1 && index!==count+active ? "true":undefined}>
-        <img src={Math.abs(index-physicalIndex)<=2 ? `/optimized/e${start+(index%count)}.webp` : undefined} alt={`Prévia ${start+(index%count)}: ${item.title}`} loading="lazy" decoding="async" width="900" height="1200" />
+        {Math.abs(index-physicalIndex)<=2 ? <img src={`/optimized/e${start+(index%count)}.webp`} alt={`Prévia ${start+(index%count)}: ${item.title}`} loading="lazy" decoding="async" width="900" height="1200" /> : <div className="carousel-image-placeholder" aria-hidden="true" />}
         <h3>{item.title}</h3><p>{item.description}</p>
       </div>)}
     </div>
