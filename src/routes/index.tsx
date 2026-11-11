@@ -158,7 +158,7 @@ function Landing(){
       <div className="example-track" ref={exampleRef} onScroll={()=>scrolled(exampleRef,setExample)}>{previews.map((p,i)=><article className="example-card" key={p.title}><div className="example-image"><img src={"/img%20"+(i+1)+".png"} alt={"Exemplo visual do kit: "+p.title} loading="lazy" decoding="async" width="900" height="900" /></div><div className="card-text"><span className="eyebrow">0{i+1}</span><h3>{p.title}</h3><p>{p.description}</p></div></article>)}</div>
       <div className="dots">{previews.map((p,i)=><button aria-label={"Ver exemplo "+(i+1)} aria-current={example===i?"true":undefined} key={p.title} className={example===i?"on":""} onClick={()=>go(exampleRef,i,setExample)}/>)}</div>
     </section>
-    <section className="section kit"><div className="container"><Heading tag="CONHEÇA O KIT" title="Conheça tudo o que vem no seu kit." subtitle="Apostilas com exercícios, cards de identificação rápida e pranchas ilustradas para utilizar em casa ou no acompanhamento profissional. As imagens são prévias demonstrativas até a chegada dos arquivos finais."/>
+    <section className="section kit"><div className="container"><Heading tag="CONHEÇA O KIT" title="Conheça tudo o que vem no seu kit." subtitle="Apostilas com exercícios, cards de identificação rápida e pranchas ilustradas para utilizar em casa ou no acompanhamento profissional. Um Pouco do nosso Material"/>
       <LoopGallery start={1} title="Primeira galeria de materiais" items={pages.slice(0,5)} />
       <div className="gallery-second"><LoopGallery start={6} title="Segunda galeria de materiais" items={[
         { title:"Outros exemplos do kit • 06", description:"Prévia ilustrativa do material.", labels:[], icons:[] },
