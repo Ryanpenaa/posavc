@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
 });
 
 // Insira o URL oficial do checkout somente após confirmação.
-const CHECKOUT_URL = "";
+const CHECKOUT_URL = "https://pay.cakto.com.br/3eg2nvx_1309085";
 const TRACKING = ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","utm_id","fbclid","gclid","ttclid","src","sck"];
 const previews = [
   { title: "Expressar necessidades", description: "Água, comida ou descanso? Imagens simples ajudam a mostrar o que a pessoa precisa no dia a dia.", labels: ["Água","Comida","Banheiro","Descanso"], icons:["💧","🍽️","🚻","🛏️"] },
