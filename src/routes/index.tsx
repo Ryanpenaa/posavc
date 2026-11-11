@@ -99,7 +99,7 @@ function LoopGallery({ start, title, items }: { start:number; title:string; item
   return <div className="viewer infinite-viewer" aria-label={title} onMouseEnter={()=>paused.current=true} onMouseLeave={()=>paused.current=false} onFocus={()=>paused.current=true} onBlur={()=>paused.current=false} onTouchStart={()=>paused.current=true} onTouchEnd={()=>{paused.current=false}}>
     <div className="viewer-top"><span></span><span>{active+1} / {count}</span></div>
     <div className="page-track infinite-track" ref={ref} onScroll={update}>
-      {copies.map((item,index)=><div className="page-slide" key={index} aria-hidden={Math.floor(index/count)!==1 && index!==count+active ? "true":undefined}>
+      {copies.map((item,index)=><div className={"page-slide " + (index%count===active ? "is-centered" : "")} key={index} aria-hidden={Math.floor(index/count)!==1 && index!==count+active ? "true":undefined}>
         <img src={`/e${start+(index%count)}.png`} alt={`Prévia ${start+(index%count)}: ${item.title}`} loading="lazy" decoding="async" width="900" height="1200" />
         <h3>{item.title}</h3><p>{item.description}</p>
       </div>)}
