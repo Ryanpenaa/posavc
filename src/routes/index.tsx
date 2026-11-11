@@ -85,7 +85,7 @@ function Landing(){
       <div className="hero-desktop"><Mockup/></div>
     </section>
     <section className="section container"><Heading tag="PARA O DIA A DIA" title="Uma imagem pode facilitar uma conversa." subtitle="Veja como recursos simples podem apoiar a comunicação em diferentes momentos do cotidiano."/>
-      <div className="example-track" ref={exampleRef} onScroll={()=>scrolled(exampleRef,setExample)}>{previews.map((p,i)=><article className="example-card" key={p.title}><div className="example-image"><Board labels={p.labels} icons={p.icons}/></div><div className="card-text"><span className="eyebrow">0{i+1}</span><h3>{p.title}</h3><p>{p.description}</p></div></article>)}</div>
+      <div className="example-track" ref={exampleRef} onScroll={()=>scrolled(exampleRef,setExample)}>{previews.map((p,i)=><article className="example-card" key={p.title}><div className="example-image"><img src={"/img%20"+(i+1)+".png"} alt={"Exemplo visual do kit: "+p.title} loading="lazy" decoding="async" width="900" height="900" /></div><div className="card-text"><span className="eyebrow">0{i+1}</span><h3>{p.title}</h3><p>{p.description}</p></div></article>)}</div>
       <div className="dots">{previews.map((p,i)=><button aria-label={"Ver exemplo "+(i+1)} aria-current={example===i?"true":undefined} key={p.title} className={example===i?"on":""} onClick={()=>go(exampleRef,i,setExample)}/>)}</div>
     </section>
     <section className="section kit"><div className="container"><Heading tag="CONHEÇA O KIT" title="Conheça os materiais que você vai receber." subtitle="Recursos organizados e preparados para uso digital ou impressão. As imagens são prévias demonstrativas até a chegada dos arquivos finais."/>
