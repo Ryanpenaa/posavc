@@ -45,7 +45,7 @@ function Board({ labels, icons }: { labels:string[], icons:string[] }) {
   return <div className="board"><div className="board-top">COMUNICAÇÃO VISUAL <span>DEMONSTRAÇÃO</span></div><div className="board-grid">{labels.map((x,i)=><div className="board-cell" key={x}><span>{icons[i]}</span><b>{x}</b></div>)}</div><small>Prévia ilustrativa • não é um arquivo final</small></div>;
 }
 function Mockup() {
-  return <div className="mockup" aria-label="Mockup demonstrativo do kit, aguardando as páginas reais"><div className="mockup-back"><Board labels={pages[1].labels} icons={pages[1].icons}/></div><div className="mockup-front"><div className="cover-kicker">MATERIAL DE APOIO À COMUNICAÇÃO</div><MessageCircle size={36}/><strong>KIT<br/>COMUNICAÇÃO<br/><span>PÓS-AVC</span></strong><p>Pranchas visuais e atividades para o cotidiano</p><div className="cover-bottom">MATERIAL DIGITAL • FORMATO A4</div></div><span className="mockup-tag">MOCKUP DEMONSTRATIVO</span></div>;
+  return <div className="mockup" aria-label="Mockup demonstrativo do kit, aguardando as páginas reais"><div className="mockup-back"><Board labels={pages[1]!.labels} icons={pages[1]!.icons}/></div><div className="mockup-front"><div className="cover-kicker">MATERIAL DE APOIO À COMUNICAÇÃO</div><MessageCircle size={36}/><strong>KIT<br/>COMUNICAÇÃO<br/><span>PÓS-AVC</span></strong><p>Pranchas visuais e atividades para o cotidiano</p><div className="cover-bottom">MATERIAL DIGITAL • FORMATO A4</div></div><span className="mockup-tag">MOCKUP DEMONSTRATIVO</span></div>;
 }
 function Heading({ tag,title,subtitle }: {tag:string,title:string,subtitle?:string}) {
   return <div className="heading"><span className="eyebrow">{tag}</span><h2>{title}</h2>{subtitle && <p>{subtitle}</p>}</div>;
