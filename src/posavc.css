@@ -163,3 +163,8 @@
 
 /* Keep slide geometry stable without requesting images far outside the viewport. */
 .posavc .infinite-track .carousel-image-placeholder{width:100%;aspect-ratio:3/4;border-radius:10px;background:#f7f9f6}
+
+/* Campaign date and countdown in the existing narrow top ribbon. */
+.posavc .topbar{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;font-variant-numeric:tabular-nums}
+.posavc .topbar strong{color:#fff;font-weight:900}
+.posavc .topbar .topbar-timer{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:5px;padding:2px 7px;color:#fff;font-size:12px;font-weight:900;letter-spacing:.04em}
