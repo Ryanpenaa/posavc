@@ -143,7 +143,7 @@ function SocialExamples(){
     <div className="container social-content">
       <Heading tag="COMUNICAÇÃO PÓS-AVC" title="Pequenas conquistas podem fazer uma grande diferença." subtitle="Veja exemplos ilustrativos de como os materiais do kit podem apoiar a comunicação entre pacientes, familiares e profissionais."/><p className="social-disclosure"></p>
       <div className="social-track" ref={gallery} onScroll={sync}>
-        {[1,2,3,4].map(n=><figure className="social-slide" key={n}><img src={`/${n}.webp`} alt={`Conversa ilustrativa ${n} sobre o kit de comunicação pós-AVC`} loading="lazy" decoding="async"/><figcaption>Exemplo ilustrativo • {n} de 4</figcaption></figure>)}
+        {[1,2,3,4].map(n=><figure className="social-slide" key={n}><img src={`/${n}.webp`} alt={`Conversa ilustrativa ${n} sobre o kit de comunicação pós-AVC`} loading="lazy" decoding="async"/><figcaption>depoimentos • {n} de 4</figcaption></figure>)}
       </div>
       <div className="social-controls"><button type="button" aria-label="Conversa anterior" disabled={active===0} onClick={()=>move(active-1)}><ChevronLeft size={20}/></button><div className="social-dots">{[0,1,2,3].map(n=><button key={n} type="button" aria-label={`Ver conversa ${n+1}`} aria-current={active===n?"true":undefined} onClick={()=>move(n)} className={active===n?"on":""}/>)}</div><button type="button" aria-label="Próxima conversa" disabled={active===3} onClick={()=>move(active+1)}><ChevronRight size={20}/></button></div>
     </div>
