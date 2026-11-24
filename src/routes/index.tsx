@@ -139,8 +139,8 @@ function SocialExamples(){
     const second=el.children[1] as HTMLElement|undefined;
     if(first&&second)setActive(Math.max(0,Math.min(3,Math.round(el.scrollLeft/(second.offsetLeft-first.offsetLeft)))));
   }
-  return <section className="social-examples social-embedded" aria-label="Conversas ilustrativas">
-    <div className="social-content">
+  return <section className="section social-examples" aria-label="Conversas ilustrativas">
+    <div className="container social-content">
       <h4>Comunicação no dia a dia</h4><p className="social-disclosure">Conversas simuladas para ilustração, não depoimentos reais.</p>
       <div className="social-track" ref={gallery} onScroll={sync}>
         {[1,2,3,4].map(n=><figure className="social-slide" key={n}><img src={`/${n}.webp`} alt={`Conversa ilustrativa ${n} sobre o kit de comunicação pós-AVC`} loading="lazy" decoding="async"/><figcaption>Exemplo ilustrativo • {n} de 4</figcaption></figure>)}
@@ -215,6 +215,7 @@ function Landing(){
       <article className="audience"><div className="audience-visual"><img src="/optimized/FAMILIA.webp" alt="Familiar e pessoa idosa utilizando recursos de comunicação" loading="lazy" decoding="async" /></div><div className="audience-copy"><span className="eyebrow">PARA FAMÍLIAS E CUIDADORES</span><h3>Mais possibilidades de comunicação em casa.</h3><p>Tenha apostilas, cards e pranchas ilustradas para apoiar escolhas, expressar necessidades e criar oportunidades de comunicação no cotidiano.</p><ul><li>Cards de identificação rápida</li><li>Atividades ilustradas para a rotina</li><li>Orientações para familiares</li></ul></div></article>
       <article className="audience"><div className="audience-visual professional"><img src="/optimized/FONO.webp" alt="Fonoaudióloga utilizando recursos visuais em atendimento" loading="lazy" decoding="async" /></div><div className="audience-copy"><span className="eyebrow">PARA FONOAUDIÓLOGOS</span><h3>Materiais prontos para apoiar suas sessões.</h3><p>Acesse recursos organizados para adaptar aos objetivos de seus atendimentos e orientar atividades complementares em casa.</p><ul><li>Apostilas de atividades</li><li>Pranchas de comunicação alternativa</li><li>Cards imprimíveis e orientações familiares</li></ul></div></article>
     </div></section>
+    <SocialExamples/>
     <section className="section offer" id="oferta" ref={offerRef}>
       <div className="container">
         <Heading tag="ACESSO DIGITAL" title="Escolha o kit ideal para você." subtitle="Recursos visuais em PDF, a partir de R$ 12,90. Pagamento único, sem mensalidades."/>
@@ -235,7 +236,6 @@ function Landing(){
               <h3>KIT PREMIUM</h3><p className="plan-subtitle">Material completo para apoiar a rotina</p>
               <div className="pricing"><span>Pagamento único</span><strong><small>R$</small> 19,99</strong><span className="fees-included">TAXAS JÁ INCLUÍDAS</span></div>
               <ul>{["Apostila de Linguagem e Nomeação","Apostila de Memória e Associação","Cards de Identificação Rápida","Pranchas de Comunicação Funcional","Cards de Emoções e Sentimentos","Cards de Atividades Cotidianas","Pranchas de Necessidades Básicas","Atividades de Reconhecimento Visual","Exercícios de Associação de Imagens","Atividades de linguagem e identificação de palavras","Material digital em PDF","Impressão ilimitada"].map(x=><li key={x}><Check size={18}/>{x}</li>)}</ul>
-              <SocialExamples/>
               <div className="plan-bonus"><strong>🎁 Material adicional</strong><ul><li><Check size={18}/> Guia Prático para Familiares e Cuidadores</li></ul></div>
               {buyButton("QUERO O KIT COMPLETO",true)}
               <p className="plan-difference">Por apenas R$ 7,09 a mais!</p>
