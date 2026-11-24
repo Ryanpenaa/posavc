@@ -47,7 +47,7 @@ export function initializeMetaPixel() {
   }
 }
 
-export function trackInitiateCheckout() {
+export function trackInitiateCheckout(value = 12.90, plan: "basic" | "premium" = "basic") {
   if (typeof window === "undefined") return;
   initializeMetaPixel();
   window.fbq?.("track", "InitiateCheckout", {
@@ -55,7 +55,8 @@ export function trackInitiateCheckout() {
     content_type: "product",
     content_ids: ["kit-comunicacao-pos-avc"],
     currency: "BRL",
-    value: 12.90,
+    value,
+    plan,
     num_items: 1,
   });
 }
