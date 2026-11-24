@@ -184,3 +184,18 @@
 .posavc .plan-bonus{margin-top:14px;background:#edf6ef;border-radius:10px;padding:12px;color:#145c47;font-size:14px}
 .posavc .plan-difference{text-align:center;color:#145c47;font-size:13px;font-weight:700;margin:10px 0 0}
 @media(min-width:700px){.posavc .plan-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.posavc .plan-body{padding:28px}}
+
+
+/* Illustrative conversations: native touch carousel, no third-party scripts. */
+.posavc .social-examples{background:#f0f4f0}
+.posavc .social-track{position:relative;display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;max-width:420px;margin:auto;overscroll-behavior-x:contain}
+.posavc .social-track::-webkit-scrollbar{display:none}
+.posavc .social-slide{flex:0 0 100%;min-width:0;margin:0;scroll-snap-align:start;overflow:hidden;border:1px solid #dce7df;border-radius:16px;background:#fff}
+.posavc .social-slide img{display:block;width:100%;height:auto;aspect-ratio:9/16;object-fit:contain;background:#f4f7f4}
+.posavc .social-slide figcaption{text-align:center;font-size:12px;color:#52675f;padding:8px}
+.posavc .social-controls{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:15px}
+.posavc .social-controls>button{display:grid;place-items:center;width:42px;height:42px;background:white;border:1px solid #dce7df;border-radius:50%;color:var(--green)}
+.posavc .social-controls>button:disabled{opacity:.4}
+.posavc .social-dots{display:flex;gap:8px;align-items:center}
+.posavc .social-dots button{width:12px;height:12px;padding:0;border:0;border-radius:50%;background:#bdcec3}
+.posavc .social-dots button.on{background:var(--green)}
