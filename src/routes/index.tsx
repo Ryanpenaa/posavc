@@ -124,6 +124,32 @@ function LoopGallery({ start, title, items }: { start:number; title:string; item
   </div>;
 }
 
+function SocialExamples(){
+  const gallery=useRef<HTMLDivElement>(null);
+  const [active,setActive]=useState(0);
+  function move(index:number){
+    const target=Math.max(0,Math.min(3,index));
+    const el=gallery.current;
+    const slide=el?.children[target] as HTMLElement | undefined;
+    if(el&&slide)el.scrollTo({left:slide.offsetLeft-el.offsetLeft,behavior:"smooth"});
+  }
+  function sync(){
+    const el=gallery.current;if(!el)return;
+    const first=el.children[0] as HTMLElement|undefined;
+    const second=el.children[1] as HTMLElement|undefined;
+    if(first&&second)setActive(Math.max(0,Math.min(3,Math.round(el.scrollLeft/(second.offsetLeft-first.offsetLeft)))));
+  }
+  return <section className="section social-examples" aria-label="Conversas ilustrativas">
+    <div className="container">
+      <Heading tag="COMUNICAÇÃO NO DIA A DIA" title="Conheça exemplos de conversas sobre o kit." subtitle="Simulações ilustrativas de conversas. Não representam depoimentos reais nem resultados clínicos comprovados."/>
+      <div className="social-track" ref={gallery} onScroll={sync}>
+        {[1,2,3,4].map(n=><figure className="social-slide" key={n}><img src={`/${n}.webp`} alt={`Conversa ilustrativa ${n} sobre o kit de comunicação pós-AVC`} loading="lazy" decoding="async"/><figcaption>Conversa ilustrativa • {n} de 4</figcaption></figure>)}
+      </div>
+      <div className="social-controls"><button type="button" aria-label="Conversa anterior" disabled={active===0} onClick={()=>move(active-1)}><ChevronLeft size={20}/></button><div className="social-dots">{[0,1,2,3].map(n=><button key={n} type="button" aria-label={`Ver conversa ${n+1}`} aria-current={active===n?"true":undefined} onClick={()=>move(n)} className={active===n?"on":""}/>)}</div><button type="button" aria-label="Próxima conversa" disabled={active===3} onClick={()=>move(active+1)}><ChevronRight size={20}/></button></div>
+    </div>
+  </section>;
+}
+
 function Landing(){
   const [today,setToday]=useState("");
   const [secondsLeft,setSecondsLeft]=useState(15*60);
@@ -218,6 +244,7 @@ function Landing(){
         </div>
       </div>
     </section>
+    <SocialExamples/>
     <section className="section container"><div className="faq-layout"><div className="guarantee"><img className="guarantee-badge" src="/garantia-7-dias.svg" alt="Selo de garantia de 7 dias" width="150" height="141" loading="lazy" decoding="async" /><h2>Sua compra com tranquilidade.</h2><p>Você conta com os direitos previstos para compras realizadas pela internet, incluindo o direito de arrependimento no prazo de 7 dias, conforme a legislação aplicável, e pode solicitar suporte pelos canais informados na compra.</p></div><div className="faq"><h2>Dúvidas frequentes</h2>{faq.map(([q,a])=><details key={q}><summary>{q}<span aria-hidden="true">+</span></summary><p>{a}</p></details>)}</div></div></section>
     <section className="final-cta"><div className="container"><MessageCircle size={35}/><h2>Mais recursos para apoiar a comunicação no dia a dia.</h2><p>Tenha apostilas, cards e pranchas reunidos em um único kit digital, com materiais para a rotina familiar e o acompanhamento profissional.</p>{buyButton("VER PLANOS DO KIT")}<small>PDF digital • Material para impressão • Pagamento único</small></div></section>
     <footer><div className="container"><strong>Kit Comunicação Pós-AVC</strong><p>Material complementar de apoio à comunicação. Não substitui acompanhamento profissional.</p><small>© {new Date().getFullYear()} • Todos os direitos reservados.</small></div></footer>
