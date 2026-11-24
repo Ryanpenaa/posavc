@@ -210,3 +210,18 @@
 .posavc .social-embedded .social-dots button{width:24px;height:24px;background:transparent;position:relative}
 .posavc .social-embedded .social-dots button:after{content:"";position:absolute;inset:7px;border-radius:50%;background:#bdcec3}
 .posavc .social-embedded .social-dots button.on:after{background:var(--green)}
+
+
+/* Standalone conversation section: subtle visual accents, no extra assets. */
+.posavc .social-examples .heading{margin-bottom:18px}
+.posavc .social-examples .heading .eyebrow{display:inline-block;background:#e1eee5;padding:7px 13px;border-radius:30px}
+.posavc .social-examples .heading h2:after{content:"";display:block;width:46px;height:3px;background:#17b978;border-radius:4px;margin:16px auto 0}
+.posavc .social-examples .social-track{max-width:440px;border-radius:18px}
+.posavc .social-examples .social-slide{border-color:#cbded1;border-radius:18px}
+.posavc .social-examples .social-slide img{aspect-ratio:auto;height:auto;object-fit:contain}
+.posavc .social-examples .social-controls{margin-top:18px}
+.posavc .social-examples .social-controls>button{border-color:#b9d2c0;box-shadow:0 3px 9px #145c4710}
+.posavc .social-examples .social-dots button{width:24px;height:24px;background:transparent;position:relative}
+.posavc .social-examples .social-dots button:after{content:"";position:absolute;inset:7px;border-radius:50%;background:#bdcec3}
+.posavc .social-examples .social-dots button.on:after{background:var(--green)}
+.posavc .social-examples .social-disclosure{margin-bottom:16px}
