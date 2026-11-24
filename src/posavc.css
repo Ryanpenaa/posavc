@@ -199,3 +199,14 @@
 .posavc .social-dots{display:flex;gap:8px;align-items:center}
 .posavc .social-dots button{width:12px;height:12px;padding:0;border:0;border-radius:50%;background:#bdcec3}
 .posavc .social-dots button.on{background:var(--green)}
+
+
+.posavc .social-embedded{margin:22px 0 16px;padding:14px 10px;background:#f1f6f2;border:1px solid #dce7df;border-radius:14px}
+.posavc .social-embedded h4{text-align:center;font-size:17px;font-weight:800;color:var(--green);margin:0 0 5px}
+.posavc .social-disclosure{text-align:center;font-size:12px;line-height:1.5;color:#52675f;margin:0 0 12px}
+.posavc .social-embedded .social-track{max-width:100%}
+.posavc .social-embedded .social-slide img{height:auto;aspect-ratio:auto;object-fit:contain}
+.posavc .social-embedded .social-controls{margin-top:10px}
+.posavc .social-embedded .social-dots button{width:24px;height:24px;background:transparent;position:relative}
+.posavc .social-embedded .social-dots button:after{content:"";position:absolute;inset:7px;border-radius:50%;background:#bdcec3}
+.posavc .social-embedded .social-dots button.on:after{background:var(--green)}
