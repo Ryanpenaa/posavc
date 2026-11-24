@@ -141,7 +141,7 @@ function SocialExamples(){
   }
   return <section className="section social-examples" aria-label="Conversas ilustrativas">
     <div className="container social-content">
-      <Heading tag="COMUNICAÇÃO PÓS-AVC" title="Pequenas conquistas podem fazer uma grande diferença." subtitle="Veja exemplos ilustrativos de como os materiais do kit podem apoiar a comunicação entre pacientes, familiares e profissionais."/><p className="social-disclosure">Conversas fictícias, não depoimentos reais.</p>
+      <Heading tag="COMUNICAÇÃO PÓS-AVC" title="Pequenas conquistas podem fazer uma grande diferença." subtitle="Veja exemplos ilustrativos de como os materiais do kit podem apoiar a comunicação entre pacientes, familiares e profissionais."/><p className="social-disclosure"></p>
       <div className="social-track" ref={gallery} onScroll={sync}>
         {[1,2,3,4].map(n=><figure className="social-slide" key={n}><img src={`/${n}.webp`} alt={`Conversa ilustrativa ${n} sobre o kit de comunicação pós-AVC`} loading="lazy" decoding="async"/><figcaption>Exemplo ilustrativo • {n} de 4</figcaption></figure>)}
       </div>
