@@ -75,8 +75,8 @@ function LoopGallery({ start, title, items }: { start:number; title:string; item
   useEffect(()=>{
     const el=ref.current;if(!el)return;
     const reset=()=>{const w=stepSize();if(w)el.scrollLeft=w*count;};
-    const observer=new IntersectionObserver(entries=>{visible.current=entries[0]?.isIntersecting??false;},{threshold:0.15});
-    observer.observe(el);
+    const observer=typeof IntersectionObserver==="function" ? new IntersectionObserver(entries=>{visible.current=entries[0]?.isIntersecting??false;},{threshold:0.15}) : null;
+    observer?.observe(el);
     const frame=requestAnimationFrame(reset);
     // Recenter only after movement completes, so the end-to-start transition stays seamless.
     const normalize=()=>{
@@ -99,7 +99,7 @@ function LoopGallery({ start, title, items }: { start:number; title:string; item
       }
     },2400);
     window.addEventListener("resize",reset);
-    return ()=>{observer.disconnect();cancelAnimationFrame(frame);clearInterval(timer);el.removeEventListener("scrollend",normalize);window.removeEventListener("resize",reset);};
+    return ()=>{observer?.disconnect();cancelAnimationFrame(frame);clearInterval(timer);el.removeEventListener("scrollend",normalize);window.removeEventListener("resize",reset);};
   },[]);
   function update(){
     const el=ref.current,w=stepSize();if(!el||!w)return;
@@ -124,7 +124,7 @@ function LoopGallery({ start, title, items }: { start:number; title:string; item
 }
 
 function Landing(){
-  const [notice,setNotice]=useState(false);
+  const notice=false;
   const [today,setToday]=useState("");
   const [secondsLeft,setSecondsLeft]=useState(15*60);
   useEffect(()=>{
@@ -145,19 +145,15 @@ function Landing(){
   const [example,setExample]=useState(0);
   const exampleRef=useRef<HTMLDivElement>(null);
   const offerRef=useRef<HTMLElement>(null);
-  function checkout(){
-    if (CHECKOUT_URL) {
-      try {
-        const url=new URL(CHECKOUT_URL);
-        if(url.protocol==="https:"){
-          const params=new URLSearchParams(window.location.search);
-          TRACKING.forEach(k=>{ const v=params.get(k); if(v && v.length<501 && !url.searchParams.has(k)) url.searchParams.set(k,v); });
-          trackInitiateCheckout();
-          window.location.assign(url.toString()); return;
-        }
-      } catch { /* checkout not configured */ }
-    }
-    setNotice(true); offerRef.current?.scrollIntoView({behavior:"smooth",block:"center"});
+  function checkout(event: React.MouseEvent<HTMLAnchorElement>){
+    const link=event.currentTarget;
+    try {
+      const url=new URL(CHECKOUT_URL);
+      const params=new URLSearchParams(window.location.search);
+      TRACKING.forEach(k=>{ const v=params.get(k); if(v && v.length<501 && !url.searchParams.has(k)) url.searchParams.set(k,v); });
+      link.href=url.toString();
+    } catch { /* Keep the native checkout link available. */ }
+    try { trackInitiateCheckout(); } catch { /* Analytics must never block checkout. */ }
   }
   function go(ref:React.RefObject<HTMLDivElement|null>,index:number,set:(x:number)=>void){
     set(index); (ref.current?.children[index] as HTMLElement | undefined)?.scrollIntoView({behavior:"smooth",block:"nearest",inline:"center"});
@@ -167,7 +163,7 @@ function Landing(){
     const child=el.children[0] as HTMLElement;
     set(Math.min(el.children.length-1,Math.max(0,Math.round(el.scrollLeft/(child.offsetWidth+16)))));
   }
-  const buyButton=(text:string)=><button className="buy-button" onClick={checkout}>{text}<ArrowRight size={20}/></button>;
+  const buyButton=(text:string)=><a className="buy-button" href={CHECKOUT_URL} onClick={checkout}>{text}<ArrowRight size={20}/></a>;
   return <main className="posavc">
     <div className="topbar"><strong>APENAS HOJE</strong><span>•</span><span>{today || "--/--"}</span><span>•</span><span className="topbar-timer" role="timer" aria-label="Contador de 15 minutos">{String(Math.floor(secondsLeft/60)).padStart(2,"0")}:{String(secondsLeft%60).padStart(2,"0")}</span></div>
     <section className="hero container">
