@@ -17,6 +17,7 @@ export const Route = createFileRoute("/")({
 
 // Insira o URL oficial do checkout somente após confirmação.
 const CHECKOUT_URL = "https://pay.cakto.com.br/3eg2nvx_1309085";
+const PREMIUM_CHECKOUT_URL = "https://pay.cakto.com.br/3cobjh9";
 const TRACKING = ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","utm_id","fbclid","gclid","ttclid","src","sck"];
 const previews = [
   { title: "Expressar necessidades", description: "Água, comida ou descanso? Imagens simples ajudam a mostrar o que a pessoa precisa no dia a dia.", labels: ["Água","Comida","Banheiro","Descanso"], icons:["💧","🍽️","🚻","🛏️"] },
@@ -124,7 +125,6 @@ function LoopGallery({ start, title, items }: { start:number; title:string; item
 }
 
 function Landing(){
-  const notice=false;
   const [today,setToday]=useState("");
   const [secondsLeft,setSecondsLeft]=useState(15*60);
   useEffect(()=>{
@@ -145,15 +145,15 @@ function Landing(){
   const [example,setExample]=useState(0);
   const exampleRef=useRef<HTMLDivElement>(null);
   const offerRef=useRef<HTMLElement>(null);
-  function checkout(event: React.MouseEvent<HTMLAnchorElement>){
+  function checkout(event: React.MouseEvent<HTMLAnchorElement>, premium=false){
     const link=event.currentTarget;
     try {
-      const url=new URL(CHECKOUT_URL);
+      const url=new URL(premium ? PREMIUM_CHECKOUT_URL : CHECKOUT_URL);
       const params=new URLSearchParams(window.location.search);
       TRACKING.forEach(k=>{ const v=params.get(k); if(v && v.length<501 && !url.searchParams.has(k)) url.searchParams.set(k,v); });
       link.href=url.toString();
     } catch { /* Keep the native checkout link available. */ }
-    try { trackInitiateCheckout(); } catch { /* Analytics must never block checkout. */ }
+    try { trackInitiateCheckout(premium ? 19.99 : 12.90, premium ? "premium" : "basic"); } catch { /* Analytics must never block checkout. */ }
   }
   function go(ref:React.RefObject<HTMLDivElement|null>,index:number,set:(x:number)=>void){
     set(index); (ref.current?.children[index] as HTMLElement | undefined)?.scrollIntoView({behavior:"smooth",block:"nearest",inline:"center"});
@@ -163,12 +163,12 @@ function Landing(){
     const child=el.children[0] as HTMLElement;
     set(Math.min(el.children.length-1,Math.max(0,Math.round(el.scrollLeft/(child.offsetWidth+16)))));
   }
-  const buyButton=(text:string)=><a className="buy-button" href={CHECKOUT_URL} onClick={checkout}>{text}<ArrowRight size={20}/></a>;
+  const buyButton=(text:string,premium?:boolean)=><a className="buy-button" href={premium===undefined?"#oferta":premium?PREMIUM_CHECKOUT_URL:CHECKOUT_URL} onClick={premium===undefined?undefined:(event)=>checkout(event,premium)}>{text}<ArrowRight size={20}/></a>;
   return <main className="posavc">
     <div className="topbar"><strong>APENAS HOJE</strong><span>•</span><span>{today || "--/--"}</span><span>•</span><span className="topbar-timer" role="timer" aria-label="Contador de 15 minutos">{String(Math.floor(secondsLeft/60)).padStart(2,"0")}:{String(secondsLeft%60).padStart(2,"0")}</span></div>
     <section className="hero container">
       <div className="hero-text"><span className="hero-label">COMUNICAÇÃO PÓS-AVC • FAMÍLIA E PROFISSIONAIS</span><h1>Apostilas, cards e pranchas para apoiar a comunicação após o AVC.</h1><div className="hero-mk"><img src="/optimized/mk.webp" alt="Mockup do Kit Comunicação Pós-AVC" fetchPriority="high" decoding="async" width="900" height="900" /></div><p>Um kit digital com atividades ilustradas, cartões de identificação rápida e pranchas visuais para apoiar a comunicação em casa ou complementar atendimentos fonoaudiológicos.</p><div className="checks"><span><Check/> Apostilas com atividades</span><span><Check/> Cards de identificação</span><span><Check/> Pranchas para imprimir</span></div>
-      {buyButton("QUERO MEU KIT COMPLETO")}</div>
+      {buyButton("VER PLANOS DO KIT")}</div>
     </section>
     <section className="section container"><Heading tag="PARA O DIA A DIA" title="Uma imagem pode facilitar uma conversa." subtitle="Veja como recursos simples podem apoiar a comunicação em diferentes momentos do cotidiano."/>
       <div className="example-track" ref={exampleRef} onScroll={()=>scrolled(exampleRef,setExample)}>{previews.map((p,i)=><article className="example-card" key={p.title}><div className="example-image"><img src={"/optimized/img%20"+(i+1)+".webp"} alt={"Exemplo visual do kit: "+p.title} loading="lazy" decoding="async" width="900" height="900" /></div><div className="card-text"><span className="eyebrow">0{i+1}</span><h3>{p.title}</h3><p>{p.description}</p></div></article>)}</div>
@@ -189,9 +189,37 @@ function Landing(){
       <article className="audience"><div className="audience-visual"><img src="/optimized/FAMILIA.webp" alt="Familiar e pessoa idosa utilizando recursos de comunicação" loading="lazy" decoding="async" /></div><div className="audience-copy"><span className="eyebrow">PARA FAMÍLIAS E CUIDADORES</span><h3>Mais possibilidades de comunicação em casa.</h3><p>Tenha apostilas, cards e pranchas ilustradas para apoiar escolhas, expressar necessidades e criar oportunidades de comunicação no cotidiano.</p><ul><li>Cards de identificação rápida</li><li>Atividades ilustradas para a rotina</li><li>Orientações para familiares</li></ul></div></article>
       <article className="audience"><div className="audience-visual professional"><img src="/optimized/FONO.webp" alt="Fonoaudióloga utilizando recursos visuais em atendimento" loading="lazy" decoding="async" /></div><div className="audience-copy"><span className="eyebrow">PARA FONOAUDIÓLOGOS</span><h3>Materiais prontos para apoiar suas sessões.</h3><p>Acesse recursos organizados para adaptar aos objetivos de seus atendimentos e orientar atividades complementares em casa.</p><ul><li>Apostilas de atividades</li><li>Pranchas de comunicação alternativa</li><li>Cards imprimíveis e orientações familiares</li></ul></div></article>
     </div></section>
-    <section className="section offer" id="oferta" ref={offerRef}><div className="container"><Heading tag="ACESSO DIGITAL" title="Um kit completo de recursos visuais por apenas R$ 12,90." subtitle="Materiais digitais organizados para imprimir, consultar e utilizar conforme as necessidades de cada pessoa."/><div className="offer-box"><div className="offer-banner"><FileText size={18}/> KIT DIGITAL COMPLETO</div><div className="offer-inner"><div className="offer-info"><ul>{["Apostila de Linguagem e Nomeação","Apostila de Memória e Associação","Cards de Identificação Rápida","Pranchas de Comunicação Funcional","Cards de Emoções e Rotina","Guia Prático para Família e Cuidadores"].map(x=><li key={x}><Check size={18}/>{x}</li>)}</ul><div className="pricing"><span>Pagamento único</span><strong><small>R$</small> 12,90</strong><span className="fees-included">TAXAS JÁ INCLUÍDAS</span><p>Sem mensalidades.</p></div>{buyButton("QUERO ACESSAR O KIT AGORA")}{notice&&<p className="notice" role="status">Checkout ainda não configurado. Nenhuma cobrança foi iniciada.</p>}<div className="security"><LockKeyhole size={14}/> Compra segura • Acesso após confirmação • 100% digital</div></div></div></div></div></section>
+    <section className="section offer" id="oferta" ref={offerRef}>
+      <div className="container">
+        <Heading tag="ACESSO DIGITAL" title="Escolha o kit ideal para você." subtitle="Recursos visuais em PDF, a partir de R$ 12,90. Pagamento único, sem mensalidades."/>
+        <div className="plan-grid">
+          <div className="offer-box plan-card plan-basic">
+            <div className="offer-banner"><FileText size={18}/> KIT BÁSICO</div>
+            <div className="plan-body offer-info">
+              <p className="plan-subtitle">Recursos essenciais de comunicação</p>
+              <div className="pricing"><span>Pagamento único</span><strong><small>R$</small> 12,90</strong><span className="fees-included">TAXAS JÁ INCLUÍDAS</span></div>
+              <ul>{["Apostilas de linguagem e memória","Cards ilustrados de comunicação","Pranchas de comunicação funcional","Material digital em PDF","Impressão ilimitada"].map(x=><li key={x}><Check size={18}/>{x}</li>)}</ul>
+              {buyButton("QUERO O BÁSICO",false)}
+              <div className="security"><LockKeyhole size={14}/> Compra segura • Garantia de 7 dias</div>
+            </div>
+          </div>
+          <div className="offer-box plan-card plan-premium">
+            <div className="offer-banner">★ MELHOR CUSTO-BENEFÍCIO</div>
+            <div className="plan-body offer-info">
+              <h3>KIT PREMIUM</h3><p className="plan-subtitle">Material completo para apoiar a rotina</p>
+              <div className="pricing"><span>Pagamento único</span><strong><small>R$</small> 19,99</strong><span className="fees-included">TAXAS JÁ INCLUÍDAS</span></div>
+              <ul>{["Apostila de Linguagem e Nomeação","Apostila de Memória e Associação","Cards de Identificação Rápida","Pranchas de Comunicação Funcional","Cards de Emoções e Sentimentos","Cards de Atividades Cotidianas","Pranchas de Necessidades Básicas","Atividades de Reconhecimento Visual","Exercícios de Associação de Imagens","Atividades de linguagem e identificação de palavras","Material digital em PDF","Impressão ilimitada"].map(x=><li key={x}><Check size={18}/>{x}</li>)}</ul>
+              <div className="plan-bonus"><strong>🎁 Material adicional</strong><ul><li><Check size={18}/> Guia Prático para Familiares e Cuidadores</li></ul></div>
+              {buyButton("QUERO O KIT COMPLETO",true)}
+              <p className="plan-difference">Por apenas R$ 7,09 a mais!</p>
+              <div className="security"><LockKeyhole size={14}/> Compra segura • Garantia de 7 dias</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <section className="section container"><div className="faq-layout"><div className="guarantee"><img className="guarantee-badge" src="/garantia-7-dias.svg" alt="Selo de garantia de 7 dias" width="150" height="141" loading="lazy" decoding="async" /><h2>Sua compra com tranquilidade.</h2><p>Você conta com os direitos previstos para compras realizadas pela internet, incluindo o direito de arrependimento no prazo de 7 dias, conforme a legislação aplicável, e pode solicitar suporte pelos canais informados na compra.</p></div><div className="faq"><h2>Dúvidas frequentes</h2>{faq.map(([q,a])=><details key={q}><summary>{q}<span aria-hidden="true">+</span></summary><p>{a}</p></details>)}</div></div></section>
-    <section className="final-cta"><div className="container"><MessageCircle size={35}/><h2>Mais recursos para apoiar a comunicação no dia a dia.</h2><p>Tenha apostilas, cards e pranchas reunidos em um único kit digital, com materiais para a rotina familiar e o acompanhamento profissional.</p>{buyButton("QUERO MEU KIT COMPLETO")}<small>PDF digital • Material para impressão • Pagamento único</small></div></section>
+    <section className="final-cta"><div className="container"><MessageCircle size={35}/><h2>Mais recursos para apoiar a comunicação no dia a dia.</h2><p>Tenha apostilas, cards e pranchas reunidos em um único kit digital, com materiais para a rotina familiar e o acompanhamento profissional.</p>{buyButton("VER PLANOS DO KIT")}<small>PDF digital • Material para impressão • Pagamento único</small></div></section>
     <footer><div className="container"><strong>Kit Comunicação Pós-AVC</strong><p>Material complementar de apoio à comunicação. Não substitui acompanhamento profissional.</p><small>© {new Date().getFullYear()} • Todos os direitos reservados.</small></div></footer>
   </main>;
 }
